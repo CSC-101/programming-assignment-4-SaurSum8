@@ -94,27 +94,32 @@ if __name__ == '__main__':
         sys.exit(1)
 
     ops = f.readlines()
+    lno = 0
 
     for i in ops:
-        t = i[:-1] #Remove \n
+        lno += 1
+        t = i.strip() #Remove \n
         l = t.split(':') #Split it at : l[0] is command, l[1]
 
-        if t == 'population-total':
-            print('2014 Population:', population_total())
+        try:
+            if t == 'population-total':
+                print('2014 Population:', population_total())
 
-        elif l[0] == 'population':
-            print("2014", l[1], "population:", population(l[1]))
+            elif l[0] == 'population':
+                print("2014", l[1], "population:", population(l[1]))
 
-        elif l[0] == 'percent':
-            print("2014", l[1], "percent:", percent(l[1]))
+            elif l[0] == 'percent':
+                print("2014", l[1], "percent:", percent(l[1]))
 
-        elif l[0] == 'filter-state': #if filter state specifically
-            cData = filterer(l[0][7:], l[1:])
-            print("Filter:", l[0][7:], '==', l[1], f'({len(cData)} entries)')
+            elif l[0] == 'filter-state': #if filter state specifically
+                cData = filterer(l[0][7:], l[1:])
+                print("Filter:", l[0][7:], '==', l[1], f'({len(cData)} entries)')
 
-        elif l[0][:6] == 'filter':
-            cData = filterer(l[0][7:], l[1:]) #when gt, lt filters, len(l) will be > 2
-            print("Filter:", l[1], l[0][7:], l[2], f'({len(cData)} entries)')
+            elif l[0][:6] == 'filter':
+                cData = filterer(l[0][7:], l[1:]) #when gt, lt filters, len(l) will be > 2
+                print("Filter:", l[1], l[0][7:], l[2], f'({len(cData)} entries)')
 
-        elif t == 'display':
-            display()
+            elif t == 'display':
+                display()
+        except:
+            print('error computing line', f'{lno}', 'skipping')
